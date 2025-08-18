@@ -19,4 +19,18 @@ header {
     /* ALTURA */
     height: 130px;
     border-bottom: 3px solid orchid;
+    /* FLOXBOX */
+    display: flex;
+    align-items: center;
+}
+
+header img {
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+header h2 {
+    color: blanchedalmond;
+    text-transform: uppercase;
+    font-size: 25px;
 }
