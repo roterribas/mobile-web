@@ -15,6 +15,11 @@ body {
     margin: 0 auto;
 }
 
+.titleGeneral h1 {
+    padding-left: 25px;
+    color: cadetblue;
+}
+
 /* CRIANDO HEADER */
 header {
     background: rgba(137, 43, 226, 0.344);
@@ -112,4 +117,20 @@ header h2 {
 
 .box a:hover {
     text-decoration: underline;
+}
+
+.promocao {
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: center;
+}
+
+.promocao img {
+    max-width: 800px;
+    height: 180px;
+    border: 2px solid red;
+    border-radius: 10px;
+    margin: 20px;
+    /* cortar imagem */
+    overflow: hidden;
 }
