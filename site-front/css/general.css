@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
     list-style: none;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -54,7 +55,6 @@ header h2 {
     font-size:  23px;
     text-decoration: none;
     color: black;
-    font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     /* border: 1px solid red; */
     padding: 18px;
@@ -77,10 +77,39 @@ header h2 {
 /* CONTENT HOME */
 .content-box {
     margin: 20px;
-    border: 3px solid red;
+    /* border: 2px solid red; */
+    display: flex;
+    
 }
 
 .box {
-    border: 1px solid blue;
+    border: 1px solid red;
     max-width: 300px;
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 10px 30px 20px 15px;
+    /* sombra */
+    box-shadow: 3px 3px 3px #bcbaba;
+}
+
+.box img {
+    border-bottom: 1px solid red;
+}
+
+.box p {
+    padding: 10px;
+    color: blueviolet
+}
+
+.box a {
+    padding: 0 0 10px 10px;
+    display: block;
+    color: burlywood;
+    text-decoration: none;
+    /* negrito */
+    font-weight: bold;
+}
+
+.box a:hover {
+    text-decoration: underline;
 }
