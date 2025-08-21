@@ -177,3 +177,15 @@ header h2 {
     padding: 10px;
     font-weight: bold;
 }
+
+footer {
+    background: black;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer p {
+    color: aliceblue;
+}
