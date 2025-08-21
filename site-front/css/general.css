@@ -189,3 +189,8 @@ footer {
 footer p {
     color: aliceblue;
 }
+
+/* pagina sobre */
+.spaceSobre {
+    margin: 20px 0 20px 0;
+}
