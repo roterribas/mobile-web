@@ -324,3 +324,42 @@ footer p {
     color: rgb(18, 162, 167);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
+form {
+    margin: 20px;
+    /* border: 1px solid red; */
+}
+
+.form-gorup {
+    /* border: 1px solid rgb(135, 142, 222); */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    }
+
+.form-group select {
+    border-radius: 8px;
+    height: 30px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.form-gorup label {
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.form-gorup input {
+    width: 100%;
+    max-width: 600px;
+    height: 30px;
+    border: 1px solid #bcbaba;
+    outline: none;
+    padding-left: 5px;
+    border-radius: 7px;
+}
+
+.form-gorup-sexo label {
+    display: inline-block;
+    margin-top: 10px;
+}
