@@ -385,3 +385,31 @@ legend {
     padding-left: 5px;
     border-radius: 7px;
 }
+
+.comentario {
+      width: 100%;
+    max-width: 300px;
+    height: 150px;
+    border: 2px solid #bcbaba;
+    outline: none;
+    padding-left: 5px;
+    border-radius: 7px;
+    display: block;
+    margin-top: 10px;
+    padding-top: 5px;
+}
+
+.titulo {
+    color: #6681d6;
+    font-weight: bold;
+}
+
+.btn-enviar {
+    background: burlywood;
+    margin-bottom: 20px;
+    padding: 10px;
+    color: aliceblue;
+    border-radius: 5px;
+    border: 0;
+    cursor: pointer;
+}

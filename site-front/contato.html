@@ -30,14 +30,14 @@
         <form>
             <article class="form-group">
                 <label for="nome">NOME:</label>
-                <input type="text" id="nome" />
+                <input type="text" id="nome" placeholder="DIGITE SEU NOME AQUI" />
             </article>
         </form>
 
         <form>
             <article class="form-group">
                 <label for="email">E-MAIL:</label>
-                <input type="text" id="email" />
+                <input type="text" id="email" placeholder="DIGITE SEU E-MAIL AQUI" />
             </article>
         </form>
 
@@ -68,7 +68,7 @@
 
             <article>
                 <fieldset>
-                    <legend>RECEBER EMAIL</legend>
+                    <legend class="titulo">RECEBER EMAIL</legend>
                     <section class="form-group-info">
                         <label for="sim">SIM</label>
                         <input type="checkbox" id="sim" />
@@ -77,13 +77,27 @@
             </article>
 
             <article class="form-group-info">
-                <label for="idade">IDADE</label>
+                <label for="idade" class="titulo">IDADE</label>
                 <input type="number" id="idade" class="form-control-padrao" min="1" max="120" />
             </article>
 
             <article class="form-group-info">
-                <label for="nivel">NIVEL DE SASTIFAÇÃO</label>
-                <input type="range" id="nivel" min="0" max="10" />
+                <label for="nivel" class="titulo">NIVEL DE SASTIFAÇÃO</label>
+                <input type="range" id="nivel" min="0" max="10"  />
+            </article>
+
+            <article class="form-group-info">
+                <label for="doc" class="titulo">IMPORTAR ARQUIVO</label>
+                <input type="file" id="dco">
+            </article>
+
+            <article class="form-group-info">
+                <label for="descricao" class="titulo">DESCRIÇÃO</label>
+                <textarea id="descricao" class="comentario" placeholder="DIGITE SEU DESCRIÇÃO AQUI"></textarea>
+            </article>
+
+            <article>
+                <button type="submit" class="btn-enviar">ENVIAR AS INFORMAÇÕES</button>
             </article>
         </form>
 
