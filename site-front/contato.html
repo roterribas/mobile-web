@@ -28,21 +28,21 @@
         <h2 class="text-contato">QUER <STRONg>ENTRAR EM CONTATO?</STRONg></h2>
 
         <form>
-            <article class="form-gorup">
+            <article class="form-group">
                 <label for="nome">NOME:</label>
                 <input type="text" id="nome" />
             </article>
         </form>
 
         <form>
-            <article class="form-gorup">
+            <article class="form-group">
                 <label for="email">E-MAIL:</label>
                 <input type="text" id="email" />
             </article>
         </form>
 
         <form>
-            <article class="form-gorup-sexo">
+            <article class="form-group-sexo">
                 <strong>SEXO:</strong>
                 <br>
                 <label for="masc">MASCULINO</label>
@@ -55,6 +55,7 @@
                 <input type="radio" name="sexo" id="outros" />
             </article>
 
+
             <article class="form-group">
                 <select>
                     <option value=""> SELECIONE O ESTADO...</option>
@@ -65,16 +66,31 @@
                 </select>
             </article>
 
+            <article>
+                <fieldset>
+                    <legend>RECEBER EMAIL</legend>
+                    <section class="form-group-info">
+                        <label for="sim">SIM</label>
+                        <input type="checkbox" id="sim" />
+                    </section>
+                </fieldset>
+            </article>
 
+            <article class="form-group-info">
+                <label for="idade">IDADE</label>
+                <input type="number" id="idade" class="form-control-padrao" min="1" max="120" />
+            </article>
 
+            <article class="form-group-info">
+                <label for="nivel">NIVEL DE SASTIFAÇÃO</label>
+                <input type="range" id="nivel" min="0" max="10" />
+            </article>
         </form>
 
 
         <footer>
             <p> © SENAI TURISMO. TODOS OS DIREITOS RESERVADOS </p>
         </footer>
-
-
     </main>
 
 </body>
