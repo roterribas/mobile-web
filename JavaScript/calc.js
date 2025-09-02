@@ -1,3 +1,7 @@
+alert("teste");
+
+
+
 // duas variaveis
 let num1 = 20;
 let num2 = 10;
