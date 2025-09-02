@@ -1,10 +1,6 @@
-alert("teste");
-
-
-
 // duas variaveis
-let num1 = 20;
-let num2 = 10;
+let num1 = Number(prompt("DIGITE UM NUMERO: "));
+let num2 = Number(prompt("DIGITE OUTRO NUMERO"));
 
 // operações
 let soma = num1 + num2
