@@ -6,6 +6,12 @@ const resultado = document.getElementById("resultado");
 // funçoes
 function soma(event) {
     event.preventDefault();
+    // validção de formulario
+    if (num1.value == "" || num2.value == "") {
+        alert("Preencha o campo");
+        return false;
+    }
+
     resultado.innerHTML = Number(num1.value) + Number(num2.value);
     num1.value = "";
     num2.value = "";
@@ -13,6 +19,12 @@ function soma(event) {
 
 function sub(event) {
     event.preventDefault();
+     // validção de formulario
+    if (num1.value == "" || num2.value == "") {
+        alert("Preencha o campo");
+        return false;
+    }
+
     resultado.innerHTML = Number(num1.value) - Number(num2.value);
     num1.value = "";
     num2.value = "";
@@ -20,6 +32,12 @@ function sub(event) {
 
 function mult(event) {
     event.preventDefault();
+     // validção de formulario
+    if (num1.value == "" || num2.value == "") {
+        alert("Preencha o campo");
+        return false;
+    }
+
     resultado.innerHTML = Number(num1.value) * Number(num2.value);
     num1.value = "";
     num2.value = "";
@@ -27,6 +45,12 @@ function mult(event) {
 
 function div(event) {
     event.preventDefault();
+     // validção de formulario
+    if (num1.value == "" || num2.value == "") {
+        alert("Preencha o campo");
+        return false;
+    }
+
     resultado.innerHTML = Number(num1.value) / Number(num2.value);
     num1.value = "";
     num2.value = "";
