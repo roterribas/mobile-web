@@ -5,7 +5,7 @@
 }
 
 body {
-    background: linear-gradient(135deg, #000000, #1a0033, #330066);
+    background: linear-gradient(140deg, #000000, #1a0033, #330066);
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -17,7 +17,7 @@ body {
     width: 100%;
     max-width: 450px;
     padding: 25px;
-    border: 2px solid #fff;
+    border: 2px solid #ffffffb5;
     border-radius: 15px;
     margin: 40px auto;
     text-align: center;
@@ -70,7 +70,7 @@ h1 {
     font-size: 16px;
     border-radius: 10px;
     font-weight: bold;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: transform 0.5s, box-shadow 0.5s;
 }
 
 #verifica-idade:hover {
