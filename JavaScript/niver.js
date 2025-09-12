@@ -17,7 +17,7 @@ diasParaNiver();
 
 // 🎉 Gerar confetes pela tela
 function soltaConfetes() {
-    const emojis = ["🎉", "🎊", "✨", "💫"];
+    const emojis = ["🎉", "🎊", "✨", "💫", "🥳"];
     for (let i = 0; i < 30; i++) {
         const confete = document.createElement("div");
         confete.className = "confete";
