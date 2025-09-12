@@ -14,3 +14,19 @@ function diasParaNiver() {
 
 // chamar a função
 diasParaNiver();
+
+// 🎉 Gerar confetes pela tela
+function soltaConfetes() {
+    const emojis = ["🎉", "🎊", "✨", "💫"];
+    for (let i = 0; i < 30; i++) {
+        const confete = document.createElement("div");
+        confete.className = "confete";
+        confete.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        confete.style.left = Math.random() * 100 + "vw";
+        confete.style.top = Math.random() * -100 + "px";
+        confete.style.animationDuration = (Math.random() * 5 + 3) + "s";
+        document.body.appendChild(confete);
+    }
+}
+
+soltaConfetes();

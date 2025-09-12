@@ -1,0 +1,79 @@
+body {
+    background: linear-gradient(to right, #7006e8, #c09ffc);
+    font-family: 'Cursiva', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    padding-top: 100px;
+    color: #fcfcfc;
+    overflow-x: hidden;
+}
+
+/* Emojis de confete flutuando no fundo */
+/* body::before {
+    content: "🎉 🎊 🎉 🎊 🎉 🎊 🎉 🎊 🎉 🎊";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    font-size: 2em;
+    text-align: center;
+    opacity: 0.2;
+    pointer-events: none;
+    z-index: -1;
+    animation: flutuar 10s linear infinite;
+} */
+
+/* @keyframes flutuar {
+    0% { transform: translateY(-100px); }
+    100% { transform: translateY(100vh); }
+} */
+
+h1 {
+    font-size: 2.8em;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+}
+
+#dias {
+    font-size: 3.5em;
+    font-weight: bold;
+    color: #ff007f;
+    display: inline-block;
+    margin: 0 10px;
+    animation: bounce 1s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.confete {
+    position: fixed;
+    font-size: 2em;
+    opacity: 0.3;
+    animation: cair 6s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes cair {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+    }
+}
+
+
+/* footer {
+    margin-top: 50px;
+    font-size: 1em;
+    color: #555;
+} */
