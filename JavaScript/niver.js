@@ -12,12 +12,27 @@ function diasParaNiver() {
 
 }
 
+function atualizarHora() {
+    const horaHTML = document.getElementById("hora");
+    const agora = new Date();
+    const hora = agora.getHours();
+    const minutos =  agora.getMinutes();
+    const segundos = agora.getSeconds();
+
+    horaHTML.textContent = `${hora}:${minutos}:${segundos}`;
+
+}
+
 // chamar a função
 diasParaNiver();
 
+setInterval(atualizarHora, 1000);
+
+atualizarHora();
+
 // 🎉 Gerar confetes pela tela
 function soltaConfetes() {
-    const emojis = ["🎉", "🎊", "✨", "💫", "🥳"];
+    const emojis = ["🎉", "🎊", "✨", "💫", "🥳", "🎂"];
     for (let i = 0; i < 30; i++) {
         const confete = document.createElement("div");
         confete.className = "confete";
