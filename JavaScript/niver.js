@@ -22,6 +22,50 @@ function atualizarHora() {
     horaHTML.textContent = `${hora}:${minutos}:${segundos}`;
 
 }
+// Seleciona o elemento HTML que exibirá a contagem
+const contador = document.getElementById("contador");
+
+// Seleciona o elemento de áudio
+const somAlerta = document.getElementById("somAlerta");
+
+// Define a data e hora alvo (ano-mês-diaThora:minuto:segundo)
+const dataAlvo = new Date("2025-09-18T15:00:00");
+
+// Cria um intervalo que será executado a cada 1 segundo (1000ms)
+const timer = setInterval(() => {
+
+    // Pega o horário atual
+    const agora = new Date();
+
+    // Calcula a diferença em milissegundos entre a data alvo e agora
+    const diferenca = dataAlvo - agora;
+
+    // Se a diferença for menor ou igual a zero, a contagem acabou
+   if (diferenca <= 0) {
+    clearInterval(timer);              
+    contador.textContent = "🎉 Parabéns! Chegou a hora! 🎉"; 
+    somAlerta.play();                  // toca o som de parabéns
+    return;                            
+}
+
+
+    // Calcula quantos dias faltam
+    const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+
+    // Calcula quantas horas faltam (resto dos dias)
+    const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+    // Calcula quantos minutos faltam (resto das horas)
+    const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+
+    // Calcula quantos segundos faltam (resto dos minutos)
+    const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+
+    // Exibe a contagem na div
+    contador.textContent = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+
+}, 1000); // Executa a cada 1 segundo
+
 
 // chamar a função
 diasParaNiver();

@@ -27,13 +27,13 @@ body {
     100% { transform: translateY(100vh); }
 } */
 
-h1, h2 {
+h1, h2, h3 {
     font-size: 2.8em;
     margin-bottom: 20px;
     animation: pulse 2s infinite;
 }
 
-#dias, #hora {
+#dias, #hora, #contador {
     font-size: 3.5em;
     font-weight: bold;
     color: #ff007f;
