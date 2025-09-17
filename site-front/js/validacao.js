@@ -10,6 +10,7 @@ form.addEventListener("submit", function(event) {
     if (email === "") {
         mensagem.textContent = "❌ Preencha com o seu e-mail ❌";
         mensagem.style.color = "red";
+        mensagem.style.fontWeight = "bold";
         return false;
     }
 
@@ -17,12 +18,14 @@ form.addEventListener("submit", function(event) {
     if (!email.includes("@") || !email.includes(".")) {
         mensagem.textContent = "⚠️ Digite um e-mail válido! ⚠️";
         mensagem.style.color = "yellow";
+        mensagem.style.fontWeight = "bold";
         return false;
     }
 
     // sucesso
-    mensagem.textContent = "✅ E-mail cadastrado com sucesso!";
+    mensagem.textContent = "✅ E-mail cadastrado com sucesso! ✅";
     mensagem.style.color = "green";
+    mensagem.style.fontWeight = "bold";
 
     // limpa o campo
     form.reset();
