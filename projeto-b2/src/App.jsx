@@ -1,10 +1,13 @@
+import Contador from "./componentes/Contador"
 
 
 function App() {
 
   return (
     <>
-      <h1>Ola Rodrigo</h1>
+    <Contador />
+
+    
     </>
   )
 }
