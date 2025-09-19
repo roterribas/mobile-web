@@ -1,0 +1,28 @@
+body {
+    background: aquamarine;
+}
+
+.container {
+    border: 1px solid blue;
+    max-width: 500px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    text-align: center;
+}
+
+button {
+    background: pink;
+    padding: 5px;
+    font-size: 25px;
+    border-radius: 10px;
+}
+
+h1 {
+    background: orange;
+    color: white;
+}
+
+h2 {
+    color: rgb(3, 100, 68);
+}
