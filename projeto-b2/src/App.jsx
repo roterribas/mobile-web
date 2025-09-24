@@ -1,14 +1,12 @@
-import Contador from "./componentes/Contador"
-
+import Header from "./componentes/Header";
+import "./App.css";
 
 function App() {
 
   return (
-    <>
-    <Contador />
-
-    
-    </>
+    <main className="container">
+      <Header/>    
+    </main>
   )
 }
 
