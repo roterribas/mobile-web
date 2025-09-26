@@ -1,13 +1,20 @@
-import img1 from "../../assets/img-card1.jpg"
 import "./ImgCard.css"
 
 export default function ImgCard(props) {
+  console.log(props)
+
   return (
-    <div className='image-card'>
-        <img src={img1} alt={props.caption || 'imagem padrão'}/>
-    <p className="img-card-caption">
-        {props.caption}
-    </p>
+    <div className="image-card">
+        <img src={props.imagem} alt={props.caption || 'imagem padrão'}/>
+        
+    
+        <h1 className="img-card-caption">
+          {props.caption}
+        </h1>
+
+        <p>
+          {props.texto}
+        </p>
     </div>
   )
 }
