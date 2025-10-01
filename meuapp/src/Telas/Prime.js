@@ -1,4 +1,5 @@
 import { View, StyleSheet, Text} from "react-native"
+import ListarCursos from "../Components/ListarCursos";
 
 export default function Prime() {
   return (
@@ -18,6 +19,7 @@ export default function Prime() {
             <Text style={estilos.textTitulo}>Power BI</Text>
             <Text style={estilos.textTitulo}>Autodesk inventor</Text>
         </View>
+        <ListarCursos/>
     </>
   )
 }
@@ -40,7 +42,7 @@ const estilos = StyleSheet.create({
     backgroundColor: "#FFD700"
   },
   textTitulo: {
-   color: "#104E8B",
+   color: "#00BFFF",
    textAlign: "center",
   }
 });
