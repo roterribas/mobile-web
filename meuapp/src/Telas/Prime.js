@@ -1,5 +1,6 @@
 import { View, StyleSheet, Text} from "react-native"
 import ListarCursos from "../Components/ListarCursos";
+import ListaAlunos from "../Components/ListaAlunos";
 
 export default function Prime() {
   return (
@@ -20,6 +21,7 @@ export default function Prime() {
             <Text style={estilos.textTitulo}>Autodesk inventor</Text>
         </View>
         <ListarCursos/>
+        <ListaAlunos/>
     </>
   )
 }
