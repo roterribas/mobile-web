@@ -9,7 +9,7 @@ export default function Card() {
     <View style={estilos.container}>
         <Text style={estilos.cardTitle}>Sobre</Text>
         <Text style={estilos.cardContet}>Saiba Mais Sobre Nos</Text>
-        <Button title="Ir para sobre" onPress={() => navigation.navigate('Sobre'))} />
+        <Button title="Ir para sobre" onPress={() => navigation.navigate('Sobre')} />
     </View>
   )
 }
