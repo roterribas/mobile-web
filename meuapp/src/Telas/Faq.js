@@ -1,79 +1,153 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet, ScrollView, TouchableOpacity, LayoutAnimation, Platform, UIManager } from 'react-native';
+// Arquivo: src/Telas/Faq.js - VERSÃO COM ESTILO MELHORADO
 
-// Ativa a animação no Android
-if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
+import React from 'react';
+import { View, Text, StyleSheet, Button, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons'; // Usaremos ícones para botões e visual
+
+// Dados de exemplo (Para simular o conteúdo real de um FAQ)
+const faqData = [
+  { 
+    id: 1, 
+    question: "Qual o prazo de entrega dos pedidos?", 
+    answer: "O prazo padrão é de 5 a 7 dias úteis após a confirmação do pagamento, dependendo da região." 
+  },
+  { 
+    id: 2, 
+    question: "Como posso rastrear meu pedido?", 
+    answer: "Você receberá um código de rastreio por e-mail em até 48h após o envio. Use o link fornecido para acompanhar." 
+  },
+  { 
+    id: 3, 
+    question: "Posso solicitar reembolso?", 
+    answer: "Reembolsos são processados em até 30 dias após o recebimento do item devolvido. Consulte a nossa política de devolução." 
+  },
+];
+
+// Componente para um item de FAQ (melhora a organização visual)
+function FaqItem({ question, answer }) {
+    return (
+        <View style={faqStyles.itemContainer}>
+            <View style={faqStyles.questionBar}>
+                <Ionicons name="chatbox-ellipses-outline" size={20} color="#007AFF" style={{ marginRight: 10 }} />
+                <Text style={faqStyles.questionText}>{question}</Text>
+            </View>
+            <View style={faqStyles.answerBox}>
+                <Text style={faqStyles.answerText}>{answer}</Text>
+            </View>
+        </View>
+    );
 }
 
+
 export default function Faq() {
-  const [aberto, setAberto] = useState(null);
-
-  const perguntas = [
-    { id: 1, pergunta: 'Como faço login?', resposta: 'Você pode fazer login usando seu e-mail e senha cadastrados.' },
-    { id: 2, pergunta: 'Esqueci minha senha, e agora?', resposta: 'Clique em “Esqueci minha senha” e siga as instruções para recuperar.' },
-    { id: 3, pergunta: 'Posso alterar meus dados?', resposta: 'Sim! Vá até a aba de perfil e clique em “Editar informações”.' },
-    { id: 4, pergunta: 'Como falo com o suporte?', resposta: 'Você pode entrar em contato pelo e-mail suporte@exemplo.com ou pelo chat no app.' },
-  ];
-
-  const alternar = (id) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setAberto(aberto === id ? null : id);
-  };
+  const navigation = useNavigation();
 
   return (
-    <View style={estilos.container}>
-      <Text style={estilos.titulo}>📖 FAQ - Perguntas Frequentes</Text>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {perguntas.map(item => (
-          <View key={item.id} style={estilos.card}>
-            <TouchableOpacity onPress={() => alternar(item.id)}>
-              <Text style={estilos.pergunta}>
-                {item.pergunta} {aberto === item.id ? '▲' : '▼'}
-              </Text>
-            </TouchableOpacity>
-            {aberto === item.id && (
-              <Text style={estilos.resposta}>{item.resposta}</Text>
-            )}
-          </View>
+    // Usa ScrollView para que o conteúdo possa rolar se for maior que a tela
+    <ScrollView style={styles.scrollContainer}>
+      <View style={styles.container}>
+        
+        <Text style={styles.headerTitle}>Central de Ajuda</Text>
+        <Text style={styles.subHeader}>Encontre respostas para suas dúvidas</Text>
+
+        {/* Renderiza a lista de itens do FAQ */}
+        {faqData.map(item => (
+            <FaqItem 
+                key={item.id} 
+                question={item.question} 
+                answer={item.answer} 
+            />
         ))}
-      </ScrollView>
-    </View>
+
+        {/* Área de Navegação/Ação */}
+        <View style={styles.actionArea}>
+            <Text style={styles.actionText}>Não encontrou a resposta?</Text>
+            <Button
+                title="Voltar para o Início"
+                onPress={() => navigation.navigate('Home')} 
+                color="#333333" // Cor escura para contraste
+            />
+            {/* Exemplo de outro botão de navegação, se necessário */}
+             <Button
+                title="Sobre o Aplicativo"
+                onPress={() => navigation.navigate('Sobre')} 
+                color="#999999"
+            />
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
-const estilos = StyleSheet.create({
-  container: {
+// Estilos globais para a tela
+const styles = StyleSheet.create({
+  scrollContainer: {
     flex: 1,
-    backgroundColor: '#f2f2f2',
+    backgroundColor: '#f4f4f4', // Fundo cinza claro
+  },
+  container: {
     padding: 20,
   },
-  titulo: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-    color: '#333',
-  },
-  card: {
-    backgroundColor: '#fff',
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 15,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  },
-  pergunta: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#007AFF',
-  },
-  resposta: {
-    fontSize: 16,
-    color: '#555',
+  headerTitle: {
+    fontSize: 30,
+    fontWeight: '700',
+    color: '#000',
+    marginBottom: 5,
     marginTop: 10,
   },
+  subHeader: {
+    fontSize: 16,
+    color: '#555',
+    marginBottom: 25,
+  },
+  actionArea: {
+    marginTop: 40,
+    paddingTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#e0e0e0',
+    alignItems: 'center',
+  },
+  actionText: {
+    fontSize: 16,
+    color: '#555',
+    marginBottom: 15,
+  }
+});
+
+// Estilos específicos para os itens do FAQ
+const faqStyles = StyleSheet.create({
+  itemContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    marginVertical: 8,
+    overflow: 'hidden',
+    shadowColor: '#000', 
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  questionBar: {
+    padding: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fcfcfc',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  questionText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+  },
+  answerBox: {
+    padding: 15,
+    backgroundColor: '#fff',
+  },
+  answerText: {
+    fontSize: 14,
+    color: '#666',
+    lineHeight: 20,
+  }
 });
