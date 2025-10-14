@@ -29,7 +29,7 @@ function FaqItem({ question, answer }) {
     return (
         <View style={faqStyles.itemContainer}>
             <View style={faqStyles.questionBar}>
-                <Ionicons name="chatbox-ellipses-outline" size={20} color="#007AFF" style={{ marginRight: 10 }} />
+                <Ionicons name="chatbox-ellipses-outline" size={20} color="#0080ffff" style={{ marginRight: 10 }} />
                 <Text style={faqStyles.questionText}>{question}</Text>
             </View>
             <View style={faqStyles.answerBox}>
@@ -72,7 +72,7 @@ export default function Faq() {
              <Button
                 title="Sobre o Aplicativo"
                 onPress={() => navigation.navigate('Sobre')} 
-                color="#999999"
+                color="#d03333cf"
             />
         </View>
       </View>
@@ -84,7 +84,7 @@ export default function Faq() {
 const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
-    backgroundColor: '#f4f4f4', // Fundo cinza claro
+    backgroundColor: '#8080803d',
   },
   container: {
     padding: 20,
@@ -98,14 +98,14 @@ const styles = StyleSheet.create({
   },
   subHeader: {
     fontSize: 16,
-    color: '#555',
+    color: '#060606ed',
     marginBottom: 25,
   },
   actionArea: {
     marginTop: 40,
     paddingTop: 20,
     borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
+    borderTopColor: '#ff0000ff',
     alignItems: 'center',
   },
   actionText: {
@@ -118,11 +118,11 @@ const styles = StyleSheet.create({
 // Estilos específicos para os itens do FAQ
 const faqStyles = StyleSheet.create({
   itemContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffffff',
     borderRadius: 10,
     marginVertical: 8,
     overflow: 'hidden',
-    shadowColor: '#000', 
+    shadowColor: '#000000ff', 
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 4,
@@ -132,9 +132,9 @@ const faqStyles = StyleSheet.create({
     padding: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fcfcfc',
+    backgroundColor: '#ff7700cf',
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: '#eeeeeeff',
   },
   questionText: {
     fontSize: 16,
@@ -143,11 +143,11 @@ const faqStyles = StyleSheet.create({
   },
   answerBox: {
     padding: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#cf3d3dff',
   },
   answerText: {
     fontSize: 14,
-    color: '#666',
+    color: '#edb05bff',
     lineHeight: 20,
   }
 });
