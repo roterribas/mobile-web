@@ -11,13 +11,13 @@ export default function Home() {
         <Card 
           title="Sobre"
           content="Saiba mais sobre nós e nossos serviços."
-          textButton="Ir para Sobre"
+          textButton="Sobre"
           OnPress={ () => navigation.navigate('Sobre') }
         />
         <Card
           title="Faq"
-          content="Saiba mais Faq"
-          textButton="Ir para Faq"
+          content="FAQ"
+          textButton="FAQ"
           OnPress={ () => navigation.navigate('Faq') }
         />
     </View>

@@ -36,7 +36,15 @@ export default function Sobre() {
 
         <View style={styles.infoRow}>
           <Text style={styles.infoLabel}>Desenvolvedor:</Text>
-          <Text style={styles.infoValue}>{info.desenvolvedor}</Text>
+          <Text
+            style={styles.infoValue}
+            numberOfLines={1}               // ✅ força apenas uma linha
+            ellipsizeMode="tail"           // ✅ se ultrapassar, mostra “...”
+            adjustsFontSizeToFit={true}    // ✅ reduz a fonte se necessário
+            minimumFontScale={0.8}         // ✅ define o mínimo que pode encolher
+          >
+            {info.desenvolvedor}
+          </Text>
         </View>
       </View>
 
@@ -83,19 +91,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   infoRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '80%',         // controla a largura das linhas
-    marginVertical: 5,
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '90%',          // 👈 mais espaço para texto longo
+    marginVertical: 8,
   },
   infoLabel: {
     fontWeight: 'bold',
     fontSize: 16,
+    marginBottom: 2,
   },
   infoValue: {
     fontSize: 16,
-    textAlign: 'right',
-    flexShrink: 1,
+    textAlign: 'center',
+    width: '100%',
   },
   actionArea: {
     marginTop: 20,
