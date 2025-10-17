@@ -13,9 +13,9 @@ export default function MainNavigator() {
     <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-           <Stack.Screen name="Sobre" component={Sobre} options={{ headerShown: false }} />
+           <Stack.Screen name="ListaContatos" component={ListaContatos} options={{ headerShown: false }} />
            <Stack.Screen name="Faq" component={Faq} options={{ headerShown: false }} />
-           <Stack.Screen name="ListaContatos" component={ListaContatos} />
+           <Stack.Screen name="Sobre" component={Sobre} options={{ headerShown: false }} />
         </Stack.Navigator>
     </NavigationContainer>
   )
