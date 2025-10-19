@@ -8,23 +8,23 @@ export default function Home() {
 
   return (
     <View>
-        <Card 
-          title="Sobre"
-          content="Saiba mais sobre nós e nossos serviços."
-          textButton="Sobre"
-          OnPress={ () => navigation.navigate('Sobre') }
-        />
+      <Card
+        title="Lista Contatos"
+        content="Contatos cadastrados"
+        textButton="Lista de contatos"
+        OnPress={ () => navigation.navigate('ListaContatos') }
+      />
         <Card
           title="Faq"
           content="Perguntas frequentes"
           textButton="FAQ"
           OnPress={ () => navigation.navigate('Faq') }
         />
-        <Card
-          title="Lista Contatos"
-          content="Contatos cadastrados"
-          textButton="Lista de contatos"
-          OnPress={ () => navigation.navigate('ListaContatos') }
+        <Card 
+          title="Sobre"
+          content="Saiba mais sobre nós e nossos serviços."
+          textButton="Sobre"
+          OnPress={ () => navigation.navigate('Sobre') }
         />
     </View>
   )
