@@ -1,20 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Button, StyleSheet, ScrollView } from 'react-native';
+import { Text, View, Button, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
 export default function ListaContatos() {
   const [contatos, setContatos] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
   const listaContatos = () => {
+    setLoading(true);
     axios
-      .get("http://192.168.1.108:3000/contatos") // Substitua com o IP da sua máquina
+      .get("http://10.212.227.46:3000/contatos")
       .then((resposta) => {
-        setContatos(resposta.data);
+        const dados = Array.isArray(resposta.data) ? resposta.data : resposta.data.contatos || [];
+        const contatosOrdenados = dados.sort((a, b) => {
+          const nomeA = (a.nome || '').toString().trim();
+          const nomeB = (b.nome || '').toString().trim();
+          return nomeA.localeCompare(nomeB, 'pt', { sensitivity: 'base' });
+        });
+        setContatos(contatosOrdenados);
       })
       .catch((error) => {
-        console.error("Erro ao buscar contatos", error);
+        console.error("❌ Erro ao buscar contatos", error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -30,34 +41,51 @@ export default function ListaContatos() {
         </Text>
       </View>
 
+      {/* 🟡 Botão de atualizar menor */}
+      <View style={styles.refreshContainer}>
+        <TouchableOpacity
+          style={styles.refreshButton}
+          onPress={listaContatos}
+          disabled={loading}
+        >
+          <Text style={styles.refreshText}>
+            {loading ? '⏳ Atualizando...' : '🔄 Atualizar'}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
       {contatos.length > 0 ? (
-        contatos.map((contato, index) => (
-          <View key={index} style={styles.card}>
-            {contato.nome && (
-              <Text style={styles.cardName} numberOfLines={1}>
-                {contato.nome}
-              </Text>
-            )}
+        [...contatos]
+          .sort((a, b) =>
+            (a.nome || '').localeCompare((b.nome || ''), 'pt', { sensitivity: 'base' })
+          )
+          .map((contato, index) => (
+            <View key={index} style={styles.card}>
+              {contato.nome && (
+                <Text style={styles.cardName} numberOfLines={1}>
+                  {contato.nome}
+                </Text>
+              )}
 
-            {Object.entries(contato).map(([campo, valor]) => {
-              if (campo === 'id' || campo === 'nome') return null;
+              {Object.entries(contato).map(([campo, valor]) => {
+                if (campo === 'id' || campo === 'nome') return null;
 
-              const campoLower = campo.toLowerCase();
-              let emoji = '';
-              if (campoLower.includes('tel') || campoLower.includes('cel')) emoji = '📞';
-              else if (campoLower.includes('email')) emoji = '📧';
-              else if (campoLower.includes('endereco')) emoji = '📍';
+                const campoLower = campo.toLowerCase();
+                let emoji = '';
+                if (campoLower.includes('tel') || campoLower.includes('cel')) emoji = '📞';
+                else if (campoLower.includes('email')) emoji = '📧';
+                else if (campoLower.includes('endereco')) emoji = '📍';
 
-              return (
-                <View key={campo} style={styles.dataRow}>
-                  <Text style={styles.dataText}>
-                    {emoji} {valor !== null && valor !== '' ? String(valor) : '—'}
-                  </Text>
-                </View>
-              );
-            })}
-          </View>
-        ))
+                return (
+                  <View key={campo} style={styles.dataRow}>
+                    <Text style={styles.dataText}>
+                      {emoji} {valor !== null && valor !== '' ? String(valor) : '—'}
+                    </Text>
+                  </View>
+                );
+              })}
+            </View>
+          ))
       ) : (
         <Text style={styles.empty}>Nenhum contato disponível</Text>
       )}
@@ -80,8 +108,9 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    marginBottom: 20,
+    marginBottom: 5,
     paddingHorizontal: 16,
+    alignItems: 'center',
   },
   title: {
     fontSize: 28,
@@ -89,6 +118,21 @@ const styles = StyleSheet.create({
     color: '#333',
     textAlign: 'center',
     width: '100%',
+  },
+  refreshContainer: {
+    alignItems: 'center',
+    marginBottom: 25, // ⬅️ mais espaço abaixo do título
+  },
+  refreshButton: {
+    paddingVertical: 5,  // 🔸 menor altura
+    paddingHorizontal: 14, // 🔸 menor largura
+    backgroundColor: '#ff6600',
+    borderRadius: 14, // 🔸 mais delicado
+  },
+  refreshText: {
+    color: '#fff',
+    fontSize: 13,  // 🔸 menor fonte
+    fontWeight: 'bold',
   },
   card: {
     width: '100%',
