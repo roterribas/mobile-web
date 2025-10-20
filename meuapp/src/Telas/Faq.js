@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   scrollContainer: { flex: 1, backgroundColor: '#8080803d' },
   container: { padding: 20 },
   headerTitle: { fontSize: 30, fontWeight: '700', color: '#000', marginBottom: 5, marginTop: 10, textAlign: 'center' },
-  subHeader: { fontSize: 17, color: '#333333', marginBottom: 25, textAlign: 'center', lineHeight: 22 },
+  subHeader: { fontSize: 10, color: '#333333', marginBottom: 25, textAlign: 'center', lineHeight: 22 },
   refreshContainer: { alignItems: 'center', marginBottom: 20 },
   refreshButton: { paddingVertical: 5, paddingHorizontal: 14, backgroundColor: '#ff6600', borderRadius: 14 },
   refreshText: { color: '#fff', fontSize: 13, fontWeight: 'bold' },

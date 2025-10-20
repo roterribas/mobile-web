@@ -40,22 +40,52 @@
     {
       "id": "1",
       "pergunta": "O QUE É JSON SERVER?",
-      "resposta": "JSON SERVER É UMA FERRAMENTA QUE PERMITE..."
+      "resposta": "JSON Server é uma ferramenta que permite criar uma API REST falsa de forma rápida e simples a partir de um arquivo JSON. É muito útil para testes e prototipagem de aplicações."
     },
     {
       "id": "2",
-      "pergunta": "O QUE É HTML",
-      "resposta": "HTML É UMA LINGUAGEM DE MARCAÇÃO"
+      "pergunta": "O QUE É HTML?",
+      "resposta": "HTML (HyperText Markup Language) é a linguagem de marcação usada para estruturar o conteúdo de páginas da web, como textos, imagens, links e vídeos."
     },
     {
       "id": "3",
-      "pergunta": "O QUE É CSS",
-      "resposta": "È UM PROGRAMA DE ESTILIZAÇÃO DA PAGINA"
+      "pergunta": "O QUE É CSS?",
+      "resposta": "CSS (Cascading Style Sheets) é a linguagem usada para estilizar páginas da web, permitindo definir cores, fontes, espaçamentos, layouts e muito mais."
     },
     {
       "id": "4",
-      "pergunta": "O QUE É JS",
-      "resposta": "É UMA LINGUAGEM DE PROGRAMAÇÃO"
+      "pergunta": "O QUE É JS?",
+      "resposta": "JavaScript (JS) é uma linguagem de programação utilizada para tornar as páginas da web interativas, criando animações, validações e funcionalidades dinâmicas."
+    },
+    {
+      "id": "5",
+      "pergunta": "O QUE É REACT?",
+      "resposta": "React é uma biblioteca JavaScript criada pelo Facebook para construir interfaces de usuário de forma rápida, eficiente e baseada em componentes reutilizáveis."
+    },
+    {
+      "id": "6",
+      "pergunta": "O QUE É NODE.JS?",
+      "resposta": "Node.js é um ambiente de execução JavaScript no lado do servidor, que permite criar aplicações escaláveis e rápidas sem precisar de um navegador."
+    },
+    {
+      "id": "7",
+      "pergunta": "O QUE É API?",
+      "resposta": "API (Interface de Programação de Aplicações) é um conjunto de regras que permite que sistemas diferentes se comuniquem entre si, trocando dados e funcionalidades."
+    },
+    {
+      "id": "8",
+      "pergunta": "O QUE É FRONT-END?",
+      "resposta": "Front-end é a parte visual de um site ou aplicação — tudo que o usuário vê e interage diretamente, desenvolvida com tecnologias como HTML, CSS e JavaScript."
+    },
+    {
+      "id": "9",
+      "pergunta": "O QUE É BACK-END?",
+      "resposta": "Back-end é a parte do sistema que roda no servidor, responsável por processar dados, gerenciar banco de dados e regras de negócio de uma aplicação."
+    },
+    {
+      "id": "10",
+      "pergunta": "O QUE É BANCO DE DADOS?",
+      "resposta": "Banco de dados é um sistema usado para armazenar, organizar e gerenciar informações de forma estruturada, permitindo buscas e atualizações rápidas."
     }
   ]
 }
