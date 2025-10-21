@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Button, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import { Ionicons } from '@expo/vector-icons'; // ✅ Import do ícone
 
 export default function ListaContatos() {
   const [contatos, setContatos] = useState([]);
@@ -23,10 +24,35 @@ export default function ListaContatos() {
       })
       .catch((error) => {
         console.error("❌ Erro ao buscar contatos", error);
+        Alert.alert("Erro", "Não foi possível carregar os contatos.");
       })
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  const deletarContato = (id) => {
+    Alert.alert(
+      "Excluir contato",
+      "Tem certeza que deseja excluir este contato?",
+      [
+        { text: "Cancelar", style: "cancel" },
+        {
+          text: "Excluir",
+          onPress: async () => {
+            try {
+              await axios.delete(`http://10.212.227.46:3000/contatos/${id}`);
+              Alert.alert("Sucesso", "Contato excluído!");
+              listaContatos(); // Atualiza a lista
+            } catch (error) {
+              console.error("❌ Erro ao excluir contato", error);
+              Alert.alert("Erro", "Não foi possível excluir o contato.");
+            }
+          },
+          style: "destructive",
+        },
+      ]
+    );
   };
 
   useEffect(() => {
@@ -41,16 +67,17 @@ export default function ListaContatos() {
         </Text>
       </View>
 
-      {/* 🟡 Botão de atualizar menor */}
       <View style={styles.refreshContainer}>
         <TouchableOpacity
           style={styles.refreshButton}
           onPress={listaContatos}
           disabled={loading}
         >
-          <Text style={styles.refreshText}>
-            {loading ? '⏳ Atualizando...' : '🔄 Atualizar'}
-          </Text>
+          {loading ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : (
+            <Text style={styles.refreshText}>🔄 Atualizar</Text>
+          )}
         </TouchableOpacity>
       </View>
 
@@ -81,10 +108,12 @@ export default function ListaContatos() {
                     <Text style={styles.dataText}>
                       {emoji} {valor !== null && valor !== '' ? String(valor) : '—'}
                     </Text>
-                    <Button
-                      title='Excluir'
-                      onPress={() => Alert.alert('Aviso', 'VOCÊ CLICOU NO BOTÃO')}
-                    />
+                    <TouchableOpacity
+                      style={styles.deleteButton}
+                      onPress={() => deletarContato(contato.id)}
+                    >
+                      <Ionicons name="trash" size={30} color="#ff0000ff" /> {/* ✅ Ícone mais forte */}
+                    </TouchableOpacity>
                   </View>
                 );
               })}
@@ -95,11 +124,12 @@ export default function ListaContatos() {
       )}
 
       <View style={styles.actionArea}>
-        <Button
-          title="Voltar para o Início"
+        <TouchableOpacity
+          style={styles.homeButton}
           onPress={() => navigation.navigate('Home')}
-          color="#333333"
-        />
+        >
+          <Text style={styles.homeButtonText}>Voltar para o Início</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -125,17 +155,17 @@ const styles = StyleSheet.create({
   },
   refreshContainer: {
     alignItems: 'center',
-    marginBottom: 25, // ⬅️ mais espaço abaixo do título
+    marginBottom: 25,
   },
   refreshButton: {
-    paddingVertical: 5,  // 🔸 menor altura
-    paddingHorizontal: 14, // 🔸 menor largura
+    paddingVertical: 5,
+    paddingHorizontal: 14,
     backgroundColor: '#ff6600',
-    borderRadius: 14, // 🔸 mais delicado
+    borderRadius: 14,
   },
   refreshText: {
     color: '#fff',
-    fontSize: 13,  // 🔸 menor fonte
+    fontSize: 13,
     fontWeight: 'bold',
   },
   card: {
@@ -164,11 +194,21 @@ const styles = StyleSheet.create({
     paddingBottom: 6,
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
+    alignItems: 'center',
   },
   dataText: {
     fontSize: 16,
     color: '#c50a0aff',
     textAlign: 'center',
+    marginBottom: 5,
+  },
+  deleteButton: {
+    backgroundColor: '#ffffffff',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   empty: {
     fontSize: 16,
@@ -183,5 +223,15 @@ const styles = StyleSheet.create({
     borderTopColor: '#ccc',
     alignItems: 'center',
     width: '100%',
+  },
+  homeButton: {
+    backgroundColor: '#333',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 14,
+  },
+  homeButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
