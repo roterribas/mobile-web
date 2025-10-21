@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Button, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, Button, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -81,6 +81,10 @@ export default function ListaContatos() {
                     <Text style={styles.dataText}>
                       {emoji} {valor !== null && valor !== '' ? String(valor) : '—'}
                     </Text>
+                    <Button
+                      title='Excluir'
+                      onPress={() => Alert.alert('Aviso', 'VOCÊ CLICOU NO BOTÃO')}
+                    />
                   </View>
                 );
               })}
