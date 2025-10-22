@@ -1,72 +1,198 @@
 import React, { useState } from 'react';
-import { Text, View, Button, StyleSheet, TextInput, Alert } from 'react-native';
+import { Text, View, StyleSheet, TextInput, Alert, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
 export default function Contato() {
-    const navigation = useNavigation();
-    const [nome, setNome] = useState('');
-    const [Telefone, setTelefone] = useState('');
+  const navigation = useNavigation();
+  const [nome, setNome] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [loading, setLoading] = useState(false);
 
-    const enviarContato = async () => {
-        if (!nome || !Telefone) {
-            Alert.alert("ERRO, POR FAVOR, PREENCHER TODOS OS CAMPOS!");
-            return;
-        }
-
-        const novoContato = {nome, Telefone};
-        axios.post('http://10.212.227.46:3000/contatos', novoContato)
+  const enviarContato = async () => {
+    if (!nome || !telefone) {
+      Alert.alert("⚠️ Erro", "Por favor, preencha todos os campos!");
+      return;
     }
 
-    return (
-        <View style={styles.container}>
-            <Text>Cadastro</Text>
-            <Text style={styles.label}>Nome</Text>
-            <TextInput style={styles.input} value={nome} onChange={setNome} placeholder='DIGITE O NOME: ' />
-            <Text style={styles.label}>Telefone</Text>
-            <TextInput style={styles.input} value={Telefone} onChange={setTelefone} placeholder='DIGITE O TELEFONE: ' />
+    setLoading(true);
 
-            <Button title='CADASTRAR' onPress={enviarContato} />
+    try {
+      // Buscar todos os contatos para calcular próximo ID
+      const respostaGet = await axios.get('http://10.212.227.46:3000/contatos');
+      const contatos = respostaGet.data || [];
+      const ultimoID = contatos.length > 0 ? Math.max(...contatos.map(c => c.id)) : 0;
+      const novoID = ultimoID + 1;
 
-            {/* 🔽 Botão igual ao do "Sobre" */}
-            <View style={styles.actionArea}>
-                <Button
-                    title="Voltar para o Início"
-                    onPress={() => navigation.navigate('Home')}
-                    color="#333333"
-                />
-            </View>
-        </View>
-    );
+      const novoContato = { id: novoID, nome, telefone };
+
+      const respostaPost = await axios.post('http://10.212.227.46:3000/contatos', novoContato);
+      setLoading(false);
+
+      if (respostaPost.status === 201) {
+        Alert.alert("✅ Sucesso", "Contato cadastrado com sucesso!");
+        setNome('');
+        setTelefone('');
+        navigation.navigate('ListaContatos');
+      } else {
+        Alert.alert("❌ Erro", "Não foi possível cadastrar o contato.");
+      }
+    } catch (erro) {
+      setLoading(false);
+      console.log("Erro completo:", erro);
+      Alert.alert("🌐 Erro de Conexão", "Falha ao conectar com o servidor.");
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      {/* Título e subtítulo responsivos */}
+      <Text
+        style={styles.titulo}
+        adjustsFontSizeToFit={true}
+        minimumFontScale={0.6}
+        allowFontScaling={true}
+      >
+        📋 Cadastro de Contato
+      </Text>
+      <Text
+        style={styles.subtitulo}
+        adjustsFontSizeToFit={true}
+        minimumFontScale={0.6}
+        allowFontScaling={true}
+      >
+        ✏️ Preencha as informações abaixo:
+      </Text>
+
+      {/* Formulário */}
+      <View style={styles.form}>
+        <Text style={styles.label}>👤 Nome:</Text>
+        <TextInput
+          style={styles.input}
+          value={nome}
+          onChangeText={setNome}
+          placeholder="Digite o nome completo"
+          placeholderTextColor="#666"
+        />
+
+        <Text style={styles.label}>📱 Telefone:</Text>
+        <TextInput
+          style={styles.input}
+          value={telefone}
+          onChangeText={setTelefone}
+          placeholder="Digite o telefone"
+          placeholderTextColor="#666"
+          keyboardType="phone-pad"
+        />
+
+        <TouchableOpacity style={styles.botaoCadastrar} onPress={enviarContato} disabled={loading}>
+          {loading ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : (
+            <Text style={styles.textoBotao}>Cadastrar</Text>
+          )}
+        </TouchableOpacity>
+      </View>
+
+      {/* Botões finais */}
+      <View style={styles.actionArea}>
+        <TouchableOpacity
+          style={[styles.botaoFinal, { backgroundColor: '#333' }]}
+          onPress={() => navigation.navigate('Home')}
+        >
+          <Text style={styles.textoBotaoFinal} numberOfLines={1}>
+            🏠 Voltar para o Início
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.botaoFinal, { backgroundColor: '#004080' }]}
+          onPress={() => navigation.navigate('ListaContatos')}
+        >
+          <Text style={styles.textoBotaoFinal} numberOfLines={1}>
+            📞 Lista de Contatos
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 20,
-    },
-    actionArea: {
-        marginTop: 20,
-        paddingTop: 20,
-        borderTopWidth: 1,
-        borderTopColor: '#ff0000ff',
-        alignItems: 'center',
-        width: '100%',
-    },
-    label: {
-        fontSize: 10,
-        marginBottom: 5,
-        fontWeight: 'bold',
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        padding: 10,
-        marginBottom: 20,
-        borderRadius: 5,
-        backgroundColor: '#487c9875'
-    }
-
+  container: {
+    flex: 1,
+    backgroundColor: '#e6f0ff',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    padding: 25,
+  },
+  titulo: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#004080',
+    textAlign: 'center',
+    marginBottom: 5,
+    paddingHorizontal: 10,
+    flexShrink: 1, // Permite reduzir para caber na tela
+  },
+  subtitulo: {
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 20,
+    textAlign: 'center',
+    paddingHorizontal: 10,
+    flexShrink: 1,
+  },
+  form: {
+    backgroundColor: '#fff',
+    width: '100%',
+    padding: 20,
+    borderRadius: 15,
+    elevation: 5,
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: '600',
+    marginBottom: 5,
+    color: '#004080',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#b3c6ff',
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 15,
+    backgroundColor: '#f5f8ff',
+  },
+  botaoCadastrar: {
+    backgroundColor: '#004080',
+    paddingVertical: 12,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  textoBotao: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  actionArea: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  botaoFinal: {
+    width: '100%',
+    paddingVertical: 12,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  textoBotaoFinal: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
+  },
 });
