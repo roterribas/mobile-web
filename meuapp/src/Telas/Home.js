@@ -13,7 +13,13 @@ export default function Home() {
         content="Contatos cadastrados"
         textButton="Lista de contatos"
         OnPress={ () => navigation.navigate('ListaContatos') }
-      />
+        />
+        <Card 
+            title="Contato"
+            content="Cadastrar contato"
+            textButton="Cadastro"
+            OnPress={ () => navigation.navigate('Contato') }
+        />
         <Card
           title="Faq"
           content="Perguntas frequentes"
