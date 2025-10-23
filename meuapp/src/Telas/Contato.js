@@ -18,14 +18,23 @@ export default function Contato() {
     setLoading(true);
 
     try {
-      // Buscar todos os contatos para calcular próximo ID
+      // Buscar todos os contatos para calcular próximo ID de forma segura
       const respostaGet = await axios.get('http://10.0.2.2:3000/contatos');
       const contatos = respostaGet.data || [];
-      const ultimoID = contatos.length > 0 ? Math.max(...contatos.map(c => c.id)) : 0;
+
+      // Filtrar apenas IDs numéricos válidos
+      const idsNumericos = contatos
+        .map(c => parseInt(c.id))
+        .filter(id => !isNaN(id));
+
+      // Calcular o próximo ID corretamente
+      const ultimoID = idsNumericos.length > 0 ? Math.max(...idsNumericos) : 0;
       const novoID = ultimoID + 1;
 
-      const novoContato = { id: novoID, nome, telefone };
+      // ✅ Enviar ID como string para evitar problemas de exclusão
+      const novoContato = { id: String(novoID), nome, telefone };
 
+      // Enviar novo contato
       const respostaPost = await axios.post('http://10.0.2.2:3000/contatos', novoContato);
       setLoading(false);
 
@@ -46,7 +55,6 @@ export default function Contato() {
 
   return (
     <View style={styles.container}>
-      {/* Título e subtítulo responsivos */}
       <Text
         style={styles.titulo}
         adjustsFontSizeToFit={true}
@@ -64,7 +72,6 @@ export default function Contato() {
         ✏️ Preencha as informações abaixo:
       </Text>
 
-      {/* Formulário */}
       <View style={styles.form}>
         <Text style={styles.label}>👤 Nome:</Text>
         <TextInput
@@ -94,7 +101,6 @@ export default function Contato() {
         </TouchableOpacity>
       </View>
 
-      {/* Botões finais */}
       <View style={styles.actionArea}>
         <TouchableOpacity
           style={[styles.botaoFinal, { backgroundColor: '#333' }]}
@@ -133,7 +139,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 5,
     paddingHorizontal: 10,
-    flexShrink: 1, // Permite reduzir para caber na tela
   },
   subtitulo: {
     fontSize: 16,
@@ -141,7 +146,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
     paddingHorizontal: 10,
-    flexShrink: 1,
   },
   form: {
     backgroundColor: '#fff',

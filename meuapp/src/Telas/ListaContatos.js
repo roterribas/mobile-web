@@ -31,28 +31,36 @@ export default function ListaContatos() {
       });
   };
 
+  // Função corrigida de exclusão
   const deletarContato = (id) => {
-    Alert.alert(
-      "Excluir contato",
-      "Tem certeza que deseja excluir este contato?",
-      [
-        { text: "Cancelar", style: "cancel" },
-        {
-          text: "Excluir",
-          onPress: async () => {
-            try {
-              await axios.delete(`http://10.0.2.2:3000/contatos/${id}`);
-              Alert.alert("✅ Sucesso", "Contato excluído!");
-              listaContatos(); // Atualiza a lista
-            } catch (error) {
-              console.error("❌ Erro ao excluir contato", error);
-              Alert.alert("Erro", "Não foi possível excluir o contato.");
+    if (!id) {
+      Alert.alert('⚠️ Erro', 'ID inválido, não foi possível excluir.');
+      return;
+    }
+
+    Alert.alert("Excluir contato", "Tem certeza que deseja excluir este contato?", [
+      { text: "Cancelar", style: "cancel" },
+      {
+        text: "Excluir",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            const idString = String(id); // ✅ Garante que o ID é string
+            await axios.delete(`http://10.0.2.2:3000/contatos/${idString}`);
+            setContatos(contatos.filter(c => String(c.id) !== idString));
+            Alert.alert("✅ Sucesso", "Contato excluído com sucesso!");
+          } catch (erro) {
+            console.log("Erro ao excluir:", erro);
+
+            if (erro.response?.status === 404) {
+              Alert.alert("❌ Erro", "Contato não encontrado no servidor.");
+            } else {
+              Alert.alert("⚠️ Erro", "Falha ao excluir o contato.");
             }
-          },
-          style: "destructive",
-        },
-      ]
-    );
+          }
+        }
+      }
+    ]);
   };
 
   useEffect(() => {
@@ -112,7 +120,7 @@ export default function ListaContatos() {
                       style={styles.deleteButton}
                       onPress={() => deletarContato(contato.id)}
                     >
-                      <Ionicons name="trash" size={30} color="#ff0000ff" /> {/* ✅ Ícone mais forte */}
+                      <Ionicons name="trash" size={30} color="#ff0000ff" />
                     </TouchableOpacity>
                   </View>
                 );
