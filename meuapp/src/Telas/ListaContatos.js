@@ -12,7 +12,7 @@ export default function ListaContatos() {
   const listaContatos = () => {
     setLoading(true);
     axios
-      .get("http://10.212.227.46:3000/contatos")
+      .get("http://10.0.2.2:3000/contatos")
       .then((resposta) => {
         const dados = Array.isArray(resposta.data) ? resposta.data : resposta.data.contatos || [];
         const contatosOrdenados = dados.sort((a, b) => {
@@ -41,8 +41,8 @@ export default function ListaContatos() {
           text: "Excluir",
           onPress: async () => {
             try {
-              await axios.delete(`http://10.212.227.46:3000/contatos/${id}`);
-              Alert.alert("Sucesso", "Contato excluído!");
+              await axios.delete(`http://10.0.2.2:3000/contatos/${id}`);
+              Alert.alert("✅ Sucesso", "Contato excluído!");
               listaContatos(); // Atualiza a lista
             } catch (error) {
               console.error("❌ Erro ao excluir contato", error);

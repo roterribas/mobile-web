@@ -19,14 +19,14 @@ export default function Contato() {
 
     try {
       // Buscar todos os contatos para calcular próximo ID
-      const respostaGet = await axios.get('http://10.212.227.46:3000/contatos');
+      const respostaGet = await axios.get('http://10.0.2.2:3000/contatos');
       const contatos = respostaGet.data || [];
       const ultimoID = contatos.length > 0 ? Math.max(...contatos.map(c => c.id)) : 0;
       const novoID = ultimoID + 1;
 
       const novoContato = { id: novoID, nome, telefone };
 
-      const respostaPost = await axios.post('http://10.212.227.46:3000/contatos', novoContato);
+      const respostaPost = await axios.post('http://10.0.2.2:3000/contatos', novoContato);
       setLoading(false);
 
       if (respostaPost.status === 201) {

@@ -49,7 +49,7 @@ export default function Faq() {
   // Buscar FAQ do servidor
   const fetchFaq = () => {
     setLoading(true);
-    axios.get('http://10.212.227.46:3000/faq')
+    axios.get('http://10.0.2.2:3000/faq')
       .then(res => {
         const dados = Array.isArray(res.data) ? res.data : res.data.faq || [];
         const dadosOrdenados = dados.sort((a, b) =>
