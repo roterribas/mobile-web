@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Button, TouchableOpacity, LayoutAnimation, Platform, UIManager } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, LayoutAnimation, Platform, UIManager } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
@@ -30,11 +30,15 @@ function FaqItem({ question, answer, isBD = false }) {
           color={isBD ? "#ffffff" : "#0080ffff"}
           style={{ marginRight: 10 }}
         />
-        <Text style={[faqStyles.questionText, isBD && faqStyles.bdQuestionText]}>{question}</Text>
+        <Text style={[faqStyles.questionText, isBD && faqStyles.bdQuestionText]}>
+          {question}
+        </Text>
       </TouchableOpacity>
       {expanded && (
         <View style={[faqStyles.answerBox, isBD && faqStyles.bdAnswerBox]}>
-          <Text style={[faqStyles.answerText, isBD && faqStyles.bdAnswerText]}>{answer}</Text>
+          <Text style={[faqStyles.answerText, isBD && faqStyles.bdAnswerText]}>
+            {answer}
+          </Text>
         </View>
       )}
     </View>
@@ -49,7 +53,8 @@ export default function Faq() {
   // Buscar FAQ do servidor
   const fetchFaq = () => {
     setLoading(true);
-    axios.get('http://10.0.2.2:3000/faq')
+    axios
+      .get('http://10.0.2.2:3000/faq')
       .then(res => {
         const dados = Array.isArray(res.data) ? res.data : res.data.faq || [];
         const dadosOrdenados = dados.sort((a, b) =>
@@ -68,14 +73,18 @@ export default function Faq() {
   return (
     <ScrollView style={styles.scrollContainer}>
       <View style={styles.container}>
-        {/* Título e subtítulo centralizados */}
+        {/* Título e subtítulo */}
         <Text style={styles.headerTitle}>Central de Ajuda</Text>
-        <Text style={styles.subHeader}>Encontre respostas para suas dúvidas de forma rápida e prática</Text>
+        <Text style={styles.subHeader}>
+          Encontre respostas para suas dúvidas de forma rápida e prática
+        </Text>
 
         {/* Botão de atualizar FAQ */}
         <View style={styles.refreshContainer}>
           <TouchableOpacity style={styles.refreshButton} onPress={fetchFaq} disabled={loading}>
-            <Text style={styles.refreshText}>{loading ? '⏳ Atualizando...' : '🔄 Atualizar FAQ'}</Text>
+            <Text style={styles.refreshText}>
+              {loading ? '⏳ Atualizando...' : '🔄 Atualizar FAQ'}
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -83,17 +92,12 @@ export default function Faq() {
         {loading && <Text style={styles.loadingText}>⏳ Carregando FAQ...</Text>}
         {!loading && faqData.length === 0 && <Text style={styles.emptyText}>Nenhuma pergunta disponível.</Text>}
 
-        {/* Renderiza perguntas do BD com destaque */}
+        {/* Renderiza perguntas do BD */}
         {faqData.map(item => (
-          <FaqItem
-            key={item.id}
-            question={item.pergunta}
-            answer={item.resposta}
-            isBD={true} // marca como vindo do BD
-          />
+          <FaqItem key={item.id} question={item.pergunta} answer={item.resposta} isBD={true} />
         ))}
 
-        {/* Conteúdo estático antigo */}
+        {/* Conteúdo estático */}
         <FaqItem question="Qual o prazo de entrega dos pedidos?" answer="O prazo padrão é de 5 a 7 dias úteis após a confirmação do pagamento, dependendo da região." />
         <FaqItem question="Como posso rastrear meu pedido?" answer="Você receberá um código de rastreio por e-mail em até 48h após o envio. Use o link fornecido para acompanhar." />
         <FaqItem question="Posso solicitar reembolso?" answer="Reembolsos são processados em até 30 dias após o recebimento do item devolvido. Consulte a nossa política de devolução." />
@@ -102,9 +106,22 @@ export default function Faq() {
         <View style={styles.actionArea}>
           <Text style={styles.actionText}>Não encontrou a resposta?</Text>
           <Text>Mande um ✉️ para: suport@suport.com</Text>
-          <Text></Text>
-          <Button title="Voltar para o Início" onPress={() => navigation.navigate('Home')} color="#333333" />
-          <Button title="Sobre o Aplicativo" onPress={() => navigation.navigate('Sobre')} color="#d03333cf" />
+
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={[styles.actionButton, { backgroundColor: '#333' }]}
+              onPress={() => navigation.navigate('Home')}
+            >
+              <Text style={styles.actionButtonText}>🏠 Voltar para o Início</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.actionButton, { backgroundColor: '#d03333cf' }]}
+              onPress={() => navigation.navigate('Sobre')}
+            >
+              <Text style={styles.actionButtonText}>ℹ️ Sobre o Aplicativo</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -115,25 +132,74 @@ export default function Faq() {
 const styles = StyleSheet.create({
   scrollContainer: { flex: 1, backgroundColor: '#8080803d' },
   container: { padding: 20 },
-  headerTitle: { fontSize: 30, fontWeight: '700', color: '#000', marginBottom: 5, marginTop: 10, textAlign: 'center' },
-  subHeader: { fontSize: 10, color: '#333333', marginBottom: 25, textAlign: 'center', lineHeight: 22 },
+  headerTitle: {
+    fontSize: 35,
+    fontWeight: '700',
+    color: '#000',
+    marginBottom: 10,
+    marginTop: 2,
+    textAlign: 'center',
+  },
+  subHeader: {
+  fontSize: 16,       // aumentei de 10 para 16
+  color: '#333333',
+  marginBottom: 25,
+  textAlign: 'center',
+  lineHeight: 25,     // ajustei o lineHeight proporcional
+},
   refreshContainer: { alignItems: 'center', marginBottom: 20 },
-  refreshButton: { paddingVertical: 5, paddingHorizontal: 14, backgroundColor: '#ff6600', borderRadius: 14 },
+  refreshButton: {
+    paddingVertical: 5,
+    paddingHorizontal: 14,
+    backgroundColor: '#ff6600',
+    borderRadius: 14,
+  },
   refreshText: { color: '#fff', fontSize: 13, fontWeight: 'bold' },
   loadingText: { textAlign: 'center', fontSize: 16, marginVertical: 10, color: '#555' },
   emptyText: { textAlign: 'center', fontSize: 16, marginVertical: 10, color: '#999' },
-  actionArea: { marginTop: 40, paddingTop: 20, borderTopWidth: 1, borderTopColor: '#ff0000ff', alignItems: 'center' },
-  actionText: { fontSize: 16, color: '#555', marginBottom: 15 }
+  actionArea: {
+    marginTop: 40,
+    paddingTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#ff0000ff',
+    alignItems: 'center',
+  },
+  actionText: { fontSize: 16, color: '#555', marginBottom: 15 },
+
+  // Botões finais lado a lado
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+    columnGap: 20,
+    width: '100%',
+  },
+  actionButton: {
+    flex: 1,
+    maxWidth: 160,
+    marginHorizontal: 10,
+    paddingVertical: 12,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 3,
+  },
+  actionButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 15,
+    textAlign: 'center',
+  },
 });
 
-// Estilos específicos para itens de FAQ
+// Estilos dos itens do FAQ
 const faqStyles = StyleSheet.create({
   itemContainer: {
-    backgroundColor: '#ffffffff',
+    backgroundColor: '#fff',
     borderRadius: 10,
     marginVertical: 8,
     overflow: 'hidden',
-    shadowColor: '#000000ff',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 4,
@@ -156,5 +222,5 @@ const faqStyles = StyleSheet.create({
   bdQuestionBar: { backgroundColor: '#ff6600' },
   bdQuestionText: { color: '#fff', fontWeight: '700' },
   bdAnswerBox: { backgroundColor: '#ffdab3' },
-  bdAnswerText: { color: '#333', fontWeight: '500' }
+  bdAnswerText: { color: '#333', fontWeight: '500' },
 });
