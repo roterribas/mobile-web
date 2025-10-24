@@ -1,12 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Alert,
+  ActivityIndicator,
+  TextInput,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import { Ionicons } from '@expo/vector-icons'; // ✅ Import do ícone
+import { Ionicons } from '@expo/vector-icons';
 
 export default function ListaContatos() {
   const [contatos, setContatos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [editandoId, setEditandoId] = useState(null);
+  const [formEdicao, setFormEdicao] = useState({});
   const navigation = useNavigation();
 
   const listaContatos = () => {
@@ -14,30 +25,27 @@ export default function ListaContatos() {
     axios
       .get("http://10.0.2.2:3000/contatos")
       .then((resposta) => {
-        const dados = Array.isArray(resposta.data) ? resposta.data : resposta.data.contatos || [];
-        const contatosOrdenados = dados.sort((a, b) => {
-          const nomeA = (a.nome || '').toString().trim();
-          const nomeB = (b.nome || '').toString().trim();
-          return nomeA.localeCompare(nomeB, 'pt', { sensitivity: 'base' });
-        });
+        const dados = Array.isArray(resposta.data)
+          ? resposta.data
+          : resposta.data.contatos || [];
+        const contatosOrdenados = dados.sort((a, b) =>
+          (a.nome || '').localeCompare(b.nome || '', 'pt', { sensitivity: 'base' })
+        );
         setContatos(contatosOrdenados);
       })
       .catch((error) => {
         console.error("❌ Erro ao buscar contatos", error);
         Alert.alert("Erro", "Não foi possível carregar os contatos.");
       })
-      .finally(() => {
-        setLoading(false);
-      });
+      .finally(() => setLoading(false));
   };
 
-  // Função corrigida de exclusão
-  const deletarContato = (id) => {
-    if (!id) {
-      Alert.alert('⚠️ Erro', 'ID inválido, não foi possível excluir.');
-      return;
-    }
+  useEffect(() => {
+    listaContatos();
+  }, []);
 
+  // 🗑️ Excluir contato
+  const deletarContato = (id) => {
     Alert.alert("Excluir contato", "Tem certeza que deseja excluir este contato?", [
       { text: "Cancelar", style: "cancel" },
       {
@@ -45,34 +53,43 @@ export default function ListaContatos() {
         style: "destructive",
         onPress: async () => {
           try {
-            const idString = String(id); // ✅ Garante que o ID é string
-            await axios.delete(`http://10.0.2.2:3000/contatos/${idString}`);
-            setContatos(contatos.filter(c => String(c.id) !== idString));
+            await axios.delete(`http://10.0.2.2:3000/contatos/${id}`);
+            setContatos(contatos.filter((c) => c.id !== id));
             Alert.alert("✅ Sucesso", "Contato excluído com sucesso!");
           } catch (erro) {
             console.log("Erro ao excluir:", erro);
-
-            if (erro.response?.status === 404) {
-              Alert.alert("❌ Erro", "Contato não encontrado no servidor.");
-            } else {
-              Alert.alert("⚠️ Erro", "Falha ao excluir o contato.");
-            }
+            Alert.alert("Erro", "Falha ao excluir o contato.");
           }
-        }
-      }
+        },
+      },
     ]);
   };
 
-  useEffect(() => {
-    listaContatos();
-  }, []);
+  // ✏️ Iniciar edição
+  const iniciarEdicao = (contato) => {
+    setEditandoId(contato.id);
+    setFormEdicao({ ...contato });
+  };
+
+  // 💾 Salvar alterações
+  const salvarEdicao = async () => {
+    try {
+      await axios.put(`http://10.0.2.2:3000/contatos/${formEdicao.id}`, formEdicao);
+      setContatos(
+        contatos.map((c) => (c.id === formEdicao.id ? formEdicao : c))
+      );
+      setEditandoId(null);
+      Alert.alert("✅ Sucesso", "Contato atualizado com sucesso!");
+    } catch (erro) {
+      console.log("Erro ao salvar:", erro);
+      Alert.alert("Erro", "Falha ao atualizar o contato.");
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title} numberOfLines={1} ellipsizeMode="clip" adjustsFontSizeToFit>
-          📇 Lista de Contatos
-        </Text>
+        <Text style={styles.title}>📇 Lista de Contatos</Text>
       </View>
 
       <View style={styles.refreshContainer}>
@@ -90,43 +107,70 @@ export default function ListaContatos() {
       </View>
 
       {contatos.length > 0 ? (
-        [...contatos]
-          .sort((a, b) =>
-            (a.nome || '').localeCompare((b.nome || ''), 'pt', { sensitivity: 'base' })
-          )
-          .map((contato, index) => (
-            <View key={index} style={styles.card}>
-              {contato.nome && (
-                <Text style={styles.cardName} numberOfLines={1}>
-                  {contato.nome}
-                </Text>
-              )}
+        contatos.map((contato) => (
+          <View key={contato.id} style={styles.card}>
+            {editandoId === contato.id ? (
+              <>
+                <TextInput
+                  style={styles.input}
+                  value={formEdicao.nome}
+                  onChangeText={(t) => setFormEdicao({ ...formEdicao, nome: t })}
+                  placeholder="Nome"
+                />
+                <TextInput
+                  style={styles.input}
+                  value={formEdicao.telefone}
+                  onChangeText={(t) => setFormEdicao({ ...formEdicao, telefone: t })}
+                  placeholder="Telefone"
+                />
+                <TextInput
+                  style={styles.input}
+                  value={formEdicao.email}
+                  onChangeText={(t) => setFormEdicao({ ...formEdicao, email: t })}
+                  placeholder="Email"
+                />
 
-              {Object.entries(contato).map(([campo, valor]) => {
-                if (campo === 'id' || campo === 'nome') return null;
+                <View style={styles.actionButtons}>
+                  <TouchableOpacity style={styles.saveButton} onPress={salvarEdicao}>
+                    <Text style={styles.actionText}>💾 Salvar</Text>
+                  </TouchableOpacity>
 
-                const campoLower = campo.toLowerCase();
-                let emoji = '';
-                if (campoLower.includes('tel') || campoLower.includes('cel')) emoji = '📞';
-                else if (campoLower.includes('email')) emoji = '📧';
-                else if (campoLower.includes('endereco')) emoji = '📍';
+                  <TouchableOpacity
+                    style={styles.cancelButton}
+                    onPress={() => setEditandoId(null)}
+                  >
+                    <Text style={styles.actionText}>❌ Cancelar</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            ) : (
+              <>
+                <Text style={styles.cardName}>{contato.nome}</Text>
+                <Text style={styles.dataText}>📞 {contato.telefone}</Text>
+                <Text style={styles.dataText}>📧 {contato.email}</Text>
 
-                return (
-                  <View key={campo} style={styles.dataRow}>
-                    <Text style={styles.dataText}>
-                      {emoji} {valor !== null && valor !== '' ? String(valor) : '—'}
-                    </Text>
-                    <TouchableOpacity
-                      style={styles.deleteButton}
-                      onPress={() => deletarContato(contato.id)}
-                    >
-                      <Ionicons name="trash" size={30} color="#ff0000ff" />
-                    </TouchableOpacity>
-                  </View>
-                );
-              })}
-            </View>
-          ))
+                {/* Botões lado a lado */}
+                <View style={styles.horizontalButtons}>
+                  <TouchableOpacity
+                    style={styles.editButton}
+                    onPress={() => iniciarEdicao(contato)}
+                  >
+                    <Ionicons name="create-outline" size={24} color="#007AFF" />
+                    <Text style={styles.btnLabel}>Alterar</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.deleteButton}
+                    onPress={() => deletarContato(contato.id)}
+                  >
+                    <Ionicons name="trash" size={24} color="#ff0000" />
+                    <Text style={styles.btnLabel}>Excluir</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            )}
+          </View>
+        ))
       ) : (
         <Text style={styles.empty}>Nenhum contato disponível</Text>
       )}
@@ -149,17 +193,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f4f8',
   },
   header: {
-    width: '100%',
-    marginBottom: 5,
-    paddingHorizontal: 16,
     alignItems: 'center',
+    marginBottom: 5,
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#333',
-    textAlign: 'center',
-    width: '100%',
   },
   refreshContainer: {
     alignItems: 'center',
@@ -177,32 +217,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   card: {
-    width: '100%',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff',
     padding: 20,
     borderRadius: 16,
     marginVertical: 10,
     borderLeftWidth: 6,
     borderLeftColor: '#ff6600',
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 6,
     elevation: 5,
   },
   cardName: {
     fontSize: 22,
     fontWeight: 'bold',
     color: '#ff6600',
-    marginBottom: 12,
     textAlign: 'center',
-  },
-  dataRow: {
-    marginBottom: 10,
-    paddingBottom: 6,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    alignItems: 'center',
+    marginBottom: 12,
   },
   dataText: {
     fontSize: 16,
@@ -210,27 +238,60 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 5,
   },
-  deleteButton: {
-    backgroundColor: '#ffffffff',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 10,
+  horizontalButtons: {
+    flexDirection: 'row',
     justifyContent: 'center',
+    gap: 25,
+    marginTop: 10,
+  },
+  editButton: {
     alignItems: 'center',
   },
+  deleteButton: {
+    alignItems: 'center',
+  },
+  btnLabel: {
+    fontSize: 12,
+    color: '#333',
+    marginTop: 2,
+  },
+  input: {
+    backgroundColor: '#fff',
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 10,
+  },
+  actionButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
+  },
+  saveButton: {
+    backgroundColor: '#28a745',
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 8,
+  },
+  cancelButton: {
+    backgroundColor: '#ff000080',
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 8,
+  },
+  actionText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
   empty: {
-    fontSize: 16,
+    textAlign: 'center',
     color: '#999',
     marginTop: 20,
-    textAlign: 'center',
   },
   actionArea: {
     marginTop: 30,
-    paddingTop: 20,
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
     alignItems: 'center',
-    width: '100%',
   },
   homeButton: {
     backgroundColor: '#333',

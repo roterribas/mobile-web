@@ -7,10 +7,11 @@ export default function Contato() {
   const navigation = useNavigation();
   const [nome, setNome] = useState('');
   const [telefone, setTelefone] = useState('');
+  const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
 
   const enviarContato = async () => {
-    if (!nome || !telefone) {
+    if (!nome || !telefone || !email) {
       Alert.alert("⚠️ Erro", "Por favor, preencha todos os campos!");
       return;
     }
@@ -18,7 +19,7 @@ export default function Contato() {
     setLoading(true);
 
     try {
-      // Buscar todos os contatos para calcular próximo ID de forma segura
+      // Buscar todos os contatos para calcular próximo ID
       const respostaGet = await axios.get('http://10.0.2.2:3000/contatos');
       const contatos = respostaGet.data || [];
 
@@ -27,12 +28,12 @@ export default function Contato() {
         .map(c => parseInt(c.id))
         .filter(id => !isNaN(id));
 
-      // Calcular o próximo ID corretamente
+      // Calcular o próximo ID
       const ultimoID = idsNumericos.length > 0 ? Math.max(...idsNumericos) : 0;
       const novoID = ultimoID + 1;
 
-      // ✅ Enviar ID como string para evitar problemas de exclusão
-      const novoContato = { id: String(novoID), nome, telefone };
+      // ✅ Novo contato com email
+      const novoContato = { id: String(novoID), nome, telefone, email };
 
       // Enviar novo contato
       const respostaPost = await axios.post('http://10.0.2.2:3000/contatos', novoContato);
@@ -42,6 +43,7 @@ export default function Contato() {
         Alert.alert("✅ Sucesso", "Contato cadastrado com sucesso!");
         setNome('');
         setTelefone('');
+        setEmail('');
         navigation.navigate('ListaContatos');
       } else {
         Alert.alert("❌ Erro", "Não foi possível cadastrar o contato.");
@@ -79,7 +81,7 @@ export default function Contato() {
           value={nome}
           onChangeText={setNome}
           placeholder="Digite o nome completo"
-          placeholderTextColor="#666"
+          placeholderTextColor="#ffffffaa"
         />
 
         <Text style={styles.label}>📱 Telefone:</Text>
@@ -88,13 +90,24 @@ export default function Contato() {
           value={telefone}
           onChangeText={setTelefone}
           placeholder="Digite o telefone"
-          placeholderTextColor="#666"
+          placeholderTextColor="#ffffffaa"
           keyboardType="phone-pad"
+        />
+
+        <Text style={styles.label}>📧 E-mail:</Text>
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Digite o e-mail"
+          placeholderTextColor="#ffffffaa"
+          keyboardType="email-address"
+          autoCapitalize="none"
         />
 
         <TouchableOpacity style={styles.botaoCadastrar} onPress={enviarContato} disabled={loading}>
           {loading ? (
-            <ActivityIndicator size="small" color="#fff" />
+            <ActivityIndicator size="small" color="#ff0000ff" />
           ) : (
             <Text style={styles.textoBotao}>Cadastrar</Text>
           )}
@@ -127,7 +140,7 @@ export default function Contato() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e6f0ff',
+    backgroundColor: '#05ffeeff',
     alignItems: 'center',
     justifyContent: 'flex-start',
     padding: 25,
@@ -148,7 +161,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   form: {
-    backgroundColor: '#fff',
+    backgroundColor: '#9000ff6c',
     width: '100%',
     padding: 20,
     borderRadius: 15,
@@ -163,21 +176,22 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: '#b3c6ff',
+    borderColor: '#000000ff',
     padding: 10,
     borderRadius: 8,
     marginBottom: 15,
-    backgroundColor: '#f5f8ff',
+    backgroundColor: '#0105ff53',
+    color: "#fff",
   },
   botaoCadastrar: {
-    backgroundColor: '#004080',
+    backgroundColor: '#ffffff',
     paddingVertical: 12,
     borderRadius: 10,
     alignItems: 'center',
     marginTop: 5,
   },
   textoBotao: {
-    color: '#fff',
+    color: '#000000ff',
     fontWeight: 'bold',
     fontSize: 16,
     textAlign: 'center',
@@ -194,7 +208,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   textoBotaoFinal: {
-    color: '#fff',
+    color: '#0151ffff',
     fontWeight: 'bold',
     fontSize: 16,
     textAlign: 'center',

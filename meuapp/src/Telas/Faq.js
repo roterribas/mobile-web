@@ -101,6 +101,8 @@ export default function Faq() {
         {/* Área de navegação/ação */}
         <View style={styles.actionArea}>
           <Text style={styles.actionText}>Não encontrou a resposta?</Text>
+          <Text>Mande um ✉️ para: suport@suport.com</Text>
+          <Text></Text>
           <Button title="Voltar para o Início" onPress={() => navigation.navigate('Home')} color="#333333" />
           <Button title="Sobre o Aplicativo" onPress={() => navigation.navigate('Sobre')} color="#d03333cf" />
         </View>
