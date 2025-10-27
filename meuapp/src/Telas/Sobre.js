@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Image1 from "../../assets/img-1.jpg";
 import Image2 from "../../assets/img-2.jpg";
@@ -8,13 +8,13 @@ export default function Sobre() {
   const navigation = useNavigation();
 
   const info = {
-    nomeApp: "Fut Popeto",
+    nomeApp: "RODRIGÃO",
     versao: "1.0.0",
     desenvolvedor: "Rodrigo Terribas Saraiva"
   };
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.scrollContent}>
       <View style={styles.container}>
         <Text style={styles.title}>Sobre</Text>
 
@@ -38,28 +38,33 @@ export default function Sobre() {
           <Text style={styles.infoLabel}>Desenvolvedor:</Text>
           <Text
             style={styles.infoValue}
-            numberOfLines={1}               // ✅ força apenas uma linha
-            ellipsizeMode="tail"           // ✅ se ultrapassar, mostra “...”
-            adjustsFontSizeToFit={true}    // ✅ reduz a fonte se necessário
-            minimumFontScale={0.8}         // ✅ define o mínimo que pode encolher
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            adjustsFontSizeToFit={true}
+            minimumFontScale={0.8}
           >
             {info.desenvolvedor}
           </Text>
         </View>
       </View>
 
+      {/* Botão com espaçamento maior */}
       <View style={styles.actionArea}>
-        <Button
-          title="Voltar para o Início"
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => navigation.navigate('Home')}
-          color="#333333"
-        />
+        >
+          <Text style={styles.buttonText}>Voltar para o Início</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollContent: {
+    paddingBottom: 80, // 👈 garante espaço no final do scroll
+  },
   container: {
     alignItems: 'center',
     padding: 20,
@@ -93,7 +98,7 @@ const styles = StyleSheet.create({
   infoRow: {
     flexDirection: 'column',
     alignItems: 'center',
-    width: '90%',          // 👈 mais espaço para texto longo
+    width: '90%',
     marginVertical: 8,
   },
   infoLabel: {
@@ -107,10 +112,29 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   actionArea: {
-    marginTop: 20,
+    marginTop: 40,      // 👈 mais espaço acima
+    marginBottom: 40,   // 👈 mais espaço abaixo
     paddingTop: 20,
     borderTopWidth: 1,
     borderTopColor: '#ff0000ff',
     alignItems: 'center',
-  }
+  },
+  button: {
+    backgroundColor: '#001f99',
+    paddingVertical: 14,
+    paddingHorizontal: 40,
+    borderRadius: 30,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+  },
+  buttonText: {
+    color: 'orange',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
 });
